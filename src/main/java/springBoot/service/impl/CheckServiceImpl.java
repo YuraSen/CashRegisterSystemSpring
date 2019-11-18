@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import springBoot.domain.Check;
 import springBoot.entity.CheckEntity;
+import springBoot.exception.InvalidDataForPaginationRuntimeException;
 import springBoot.repository.CheckRepository;
 import springBoot.service.CheckService;
 import springBoot.service.mapper.CheckMapper;
@@ -29,6 +30,11 @@ public class CheckServiceImpl implements CheckService {
 
     @Override
     public List<Check> findAll(Integer currentPage, Integer recordsPerPage) {
+        if (currentPage <= 0 || recordsPerPage <= 0) {
+            log.error("Invalid number of check pagination");
+            throw new InvalidDataForPaginationRuntimeException("Invalid number of check pagination");
+        }
+
         PageRequest pageRequest = PageRequest.of(currentPage, recordsPerPage);
         Page<CheckEntity> result = checkRepository.findAll(pageRequest);
 

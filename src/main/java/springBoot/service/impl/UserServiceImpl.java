@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 import springBoot.domain.User;
 import springBoot.entity.UserEntity;
 import springBoot.exception.EntityNotFoundRuntimeException;
-import springBoot.exception.UserExistException;
+import springBoot.exception.InvalidDataForPaginationRuntimeException;
+import springBoot.exception.UserExistRuntimeException;
 import springBoot.repository.UserRepository;
 import springBoot.service.UserService;
 import springBoot.service.mapper.UserMapper;
@@ -39,7 +40,7 @@ public class UserServiceImpl implements UserService {
     public User register(User user) {
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             log.warn("User is also exist");
-            throw new UserExistException("User is also exist");
+            throw new UserExistRuntimeException("User is also exist");
         }
 
         String encoded = encoder.encode(user.getPassword());
@@ -71,6 +72,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAll(Integer currentPage, Integer recordsPerPage) {
+        if (currentPage <= 0 || recordsPerPage <= 0) {
+            log.error("Invalid number of user pagination");
+            throw new InvalidDataForPaginationRuntimeException("Invalid number of user pagination");
+        }
+
         PageRequest pageRequest = PageRequest.of(currentPage, recordsPerPage);
         Page<UserEntity> result = userRepository.findAll(pageRequest);
 

@@ -8,12 +8,15 @@ import org.springframework.stereotype.Service;
 import springBoot.domain.Product;
 import springBoot.entity.ProductEntity;
 import springBoot.exception.EntityNotFoundRuntimeException;
+import springBoot.exception.InvalidDataForPaginationRuntimeException;
+import springBoot.exception.InvalidDataRuntimeException;
 import springBoot.repository.ProductRepository;
 import springBoot.service.ProductService;
 import springBoot.service.mapper.ProductMapper;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -31,6 +34,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findByName(String name) {
+        if (Objects.isNull(name)) {
+            log.warn("Name product is null");
+            throw new InvalidDataRuntimeException("Name product is null");
+        }
+
         Optional<ProductEntity> result = productRepository.findByName(name);
 
         ProductEntity productEntity = result.
@@ -43,6 +51,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAll(Integer currentPage, Integer recordsPerPage) {
+        if (currentPage <= 0 || recordsPerPage <= 0) {
+            log.error("Invalid number of product pagination");
+            throw new InvalidDataForPaginationRuntimeException("Invalid number of product pagination");
+        }
+
         PageRequest pageRequest = PageRequest.of(currentPage, recordsPerPage);
         Page<ProductEntity> result = productRepository.findAll(pageRequest);
 
