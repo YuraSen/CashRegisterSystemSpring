@@ -15,15 +15,18 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "userEntity")
-public class UserEntity{
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
+
     @Column(name = "username", nullable = false, unique = true)
     private String username;
+
     @Column(name = "password", nullable = false)
     private String password;
+    
     @Column(name = "active", nullable = false)
     private boolean active;
 

@@ -19,8 +19,10 @@ public class ReportEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
+
     private Long id;
     @Column(name = "date", nullable = false)
+
     private LocalDate date;
     @Column(name = "total", nullable = false)
     private BigDecimal total;
