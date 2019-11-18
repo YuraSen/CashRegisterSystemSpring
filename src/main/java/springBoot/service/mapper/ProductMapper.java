@@ -8,8 +8,8 @@ import springBoot.entity.ProductEntity;
 @Component
 @Mapper
 public interface ProductMapper {
-    Product productToProductEntity(ProductEntity checkEntity);
+    Product productEntityToProduct(ProductEntity checkEntity);
 
-    ProductEntity productEntityToProduct(Product check);
+    ProductEntity productToProductEntity(Product check);
 }
 

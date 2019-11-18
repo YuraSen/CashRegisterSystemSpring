@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import springBoot.domain.User;
 import springBoot.entity.UserEntity;
+import springBoot.exception.EntityNotFoundRuntimeException;
 import springBoot.exception.UserExistException;
 import springBoot.repository.UserRepository;
 import springBoot.service.UserService;
@@ -54,16 +55,17 @@ public class UserServiceImpl implements UserService {
         String encodedPassword = encoder.encode(password);
         Optional<UserEntity> entity = userRepository.findByUsername(username);
 
-        if (!entity.isPresent()) {
-            log.warn("User is not exist");
-            throw new EntityNotFoundException("User is not exist");
+        UserEntity userEntity = entity.
+                orElseThrow(() -> {
+                    log.warn("User don't find by name");
+                    throw new EntityNotFoundRuntimeException("User don't find by name");
+                });
+
+        if (userEntity.getPassword().equals(encodedPassword)) {
+            return mapper.userEntityToUser(entity.get());
         } else {
-            if (entity.get().getPassword().equals(encodedPassword)) {
-                return mapper.userEntityToUser(entity.get());
-            } else {
-                log.warn("Uncorrected password");
-                throw new EntityNotFoundException("Uncorrected password");
-            }
+            log.warn("Uncorrected password");
+            throw new EntityNotFoundException("Uncorrected password");
         }
     }
 
