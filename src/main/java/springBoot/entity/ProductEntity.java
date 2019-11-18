@@ -28,6 +28,4 @@ public class ProductEntity {
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private ProductType productType;
-
-
 }

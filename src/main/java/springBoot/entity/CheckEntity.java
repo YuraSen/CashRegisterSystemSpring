@@ -13,7 +13,6 @@ import java.util.Map;
 @Builder
 @Entity
 @Table(name = "checkEntities")
-
 public class CheckEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

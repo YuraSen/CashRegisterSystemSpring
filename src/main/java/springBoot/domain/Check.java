@@ -12,7 +12,6 @@ import java.util.Map;
 @Data
 @Builder
 @AllArgsConstructor
-
 public class Check {
     private Long id;
 

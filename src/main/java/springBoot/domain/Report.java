@@ -14,7 +14,6 @@ import java.util.Set;
 @Data
 @Builder
 @AllArgsConstructor
-
 public class Report {
     private Long id;
 

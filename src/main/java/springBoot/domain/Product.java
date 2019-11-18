@@ -11,7 +11,6 @@ import javax.validation.constraints.*;
 @Data
 @Builder
 @AllArgsConstructor
-
 public class Product {
     private Long id;
 
