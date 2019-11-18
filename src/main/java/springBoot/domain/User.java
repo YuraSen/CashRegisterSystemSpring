@@ -30,4 +30,12 @@ public class User {
 
     @NotNull
     private boolean active;
+
+    public User(User user, String password) {
+        this.id = user.id;
+        this.username = user.username;
+        this.password = password;
+        this.roles = user.roles;
+        this.active = user.active;
+    }
 }

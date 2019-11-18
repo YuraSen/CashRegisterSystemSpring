@@ -2,6 +2,8 @@ package springBoot.service.impl;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import springBoot.domain.User;
@@ -48,36 +50,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(String email, String password) {
+    public User login(String username, String password) {
         String encodedPassword = encoder.encode(password);
-        Optional<UserEntity> entity = userRepository.findByEmail(email);
+        Optional<UserEntity> entity = userRepository.findByUsername(username);
 
         if (!entity.isPresent()) {
-            log.warn("There is no user with this e-mail");
-            throw new EntityNotFoundException("There is no user with this e-mail");
+            log.warn("User is not exist");
+            throw new EntityNotFoundException("User is not exist");
         } else {
             if (entity.get().getPassword().equals(encodedPassword)) {
-                return mapper.mapUserEntityToUser(entity.get());
+                return mapper.userEntityToUser(entity.get());
             } else {
-                LOGGER.warn("Incorrect password");
-                throw new EntityNotFoundException("Incorrect password");
+                log.warn("Uncorrected password");
+                throw new EntityNotFoundException("Uncorrected password");
             }
         }
     }
 
     @Override
     public List<User> findAll(Integer currentPage, Integer recordsPerPage) {
-        if (currentPage <= 0 || recordsPerPage <= 0) {
-            LOGGER.error("Invalid number of current page or records per page");
-            throw new InvalidPaginatingException("Invalid number of current page or records per page");
-        }
-
         PageRequest pageRequest = PageRequest.of(currentPage, recordsPerPage);
         Page<UserEntity> result = userRepository.findAll(pageRequest);
 
         return result.isEmpty() ? Collections.emptyList()
                 : result.stream()
-                .map(mapper::mapUserEntityToUser)
+                .map(mapper::userEntityToUser)
                 .collect(Collectors.toList());
     }
 
@@ -86,4 +83,3 @@ public class UserServiceImpl implements UserService {
         return userRepository.count();
     }
 }
-
