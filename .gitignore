@@ -1,3 +1,8 @@
-.idea
-target
-FinalProjectDemo.iml
+.idea/
+/target/
+*.iml
+out/
+.mvn
+HELP.md
+mvnw
+mvnw.cmd
