@@ -4,7 +4,6 @@ import com.spring.model.domain.User;
 import com.spring.model.domain.UserType;
 import com.spring.model.exception.DataNotExistRuntimeException;
 import com.spring.model.exception.EntityNotFoundRuntimeException;
-import com.spring.model.exception.IdInvalidRuntimeException;
 import com.spring.model.repositories.UserRepository;
 import com.spring.model.repositories.UserTypeRepository;
 import com.spring.model.service.UserService;
@@ -15,8 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
