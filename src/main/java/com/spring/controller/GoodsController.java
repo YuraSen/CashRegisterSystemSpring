@@ -31,25 +31,6 @@ public class GoodsController {
         return "/goods";
     }
 
-    @PostMapping("/goods")
-    public String addGoods(Model model, @RequestParam("code") Integer code, @RequestParam("name") String name,
-                           @RequestParam("quant") Double quant, @RequestParam("price") Double price, @RequestParam("measure") String measure,
-                           @RequestParam("comments") String comments,
-                           @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
-        Long goodsId = goodsService.addGoods(code, name, quant, price, measure, comments);
-        if (goodsId > 0) {
-            model.addAttribute("addedGood", name);
-        } else if (goodsId == -1) {
-            model.addAttribute("addedGood", null);
-            model.addAttribute("existsCode", code);
-        } else if (goodsId == -2) {
-            model.addAttribute("addedGood", null);
-            model.addAttribute("existsName", name);
-        }
-        addPagination(model, page, size);
-        return "/goods";
-    }
-
     @GetMapping("/goods/edit/{code}")
     public String editGoods(Model model, @PathVariable Integer code, @RequestParam("page") Optional<Integer> page,
                             @RequestParam("size") Optional<Integer> size) {

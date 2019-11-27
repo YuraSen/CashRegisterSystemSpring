@@ -59,32 +59,6 @@ public class GoodsServiceImpl implements GoodService {
     }
 
     @Override
-    public Long addGoods(Integer code, String name, Double quant, Double price, String measure, String comments) {
-        Goods goods = new Goods();
-        goods.setCode(code);
-        goods.setName(name);
-        goods.setQuant(quant);
-        goods.setPrice(price);
-        goods.setMeasure(measure);
-        goods.setComments(comments);
-        Optional<GoodsEntity> goodsEntity = goodsRepository.findByCode(code);
-        if (goodsEntity.isPresent()) {
-            log.info("Товар с кодом " + code + " уже существует");
-            return -1L;
-        } else {
-            goodsEntity = goodsRepository.findByName(name);
-            if (goodsEntity.isPresent()) {
-                log.info("Товар " + name + " уже существует");
-                return -2L;
-            } else {
-                log.info("Товар добавлен");
-                GoodsEntity result = goodsRepository.save(goodMapper.goodToGoodEntity(goods));
-                return result.getId();
-            }
-        }
-    }
-
-    @Override
     public void changeGoods(Integer code, Double newQuant, Double newPrice) {
         Goods goods = goodMapper.goodEntityToGood(goodsRepository.findByCode(code)
                 .orElseThrow(() -> new EntityNotFoundRuntimeException("Don't find good by this code")));
