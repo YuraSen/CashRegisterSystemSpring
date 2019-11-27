@@ -1,17 +1,14 @@
 package com.spring.model.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
 
 @Data
-@AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor
 @Entity
 @Builder
