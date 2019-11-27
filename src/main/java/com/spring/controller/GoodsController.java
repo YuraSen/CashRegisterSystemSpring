@@ -70,7 +70,7 @@ public class GoodsController {
     private void addPagination(Model model, Optional<Integer> page, Optional<Integer> size) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(10);
-        Page<Goods> goods = goodsService.view(currentPage, pageSize);
+        Page<Goods> goods = goodsService.getPageGoods(currentPage, pageSize);
         model.addAttribute("goods", goods);
         model.addAttribute("currentPage", currentPage);
         int totalPages = goods.getTotalPages();

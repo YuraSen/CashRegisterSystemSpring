@@ -39,7 +39,7 @@ public class GoodsServiceImpl implements GoodService {
     }
 
     @Override
-    public Page<Goods> view(int currentPage, int pageSize) {
+    public Page<Goods> getPageGoods(int currentPage, int pageSize) {
         PageRequest sortedByCode = PageRequest.of(currentPage - 1, pageSize, Sort.by("code"));
         Page<GoodsEntity> allGoodsEntity = goodsRepository.findAll(sortedByCode);
         List<Goods> result = allGoodsEntity

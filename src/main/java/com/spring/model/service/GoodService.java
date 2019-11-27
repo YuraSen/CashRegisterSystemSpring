@@ -8,7 +8,7 @@ public interface GoodService {
 
     Goods findByName(String name);
 
-    Page<Goods> view(int currentPage, int pageSize);
+    Page<Goods> getPageGoods(int currentPage, int pageSize);
 
     Integer reduceQuant(Long id, double quant);
 
