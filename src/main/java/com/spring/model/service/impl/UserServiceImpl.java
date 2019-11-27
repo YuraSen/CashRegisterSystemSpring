@@ -2,7 +2,6 @@ package com.spring.model.service.impl;
 
 import com.spring.model.domain.User;
 import com.spring.model.domain.UserType;
-import com.spring.model.entity.UserEntity;
 import com.spring.model.exception.DataNotExistRuntimeException;
 import com.spring.model.exception.EntityNotFoundRuntimeException;
 import com.spring.model.exception.IdInvalidRuntimeException;
@@ -13,13 +12,11 @@ import com.spring.model.service.mapper.UserMapper;
 import com.spring.model.service.mapper.UserTypeMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -30,7 +27,6 @@ public class UserServiceImpl implements UserService {
     private final UserTypeRepository userTypeRepository;
     private final UserMapper userMapper;
     private final UserTypeMapper userTypeMapper;
-
 
     @Override
     public User findByLogin(String login) {
@@ -78,20 +74,12 @@ public class UserServiceImpl implements UserService {
             UserType type = userTypeMapper.userTypeEntityToUserType(userTypeRepository.findByType("cashier")
                     .orElseThrow(() -> new EntityNotFoundRuntimeException("Don't find user type by this type")));
 
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            user.setPassword(DigestUtils.sha256Hex(user.getPassword()));
             user.setUserType(type);
             return userMapper.userEntityToUser(userRepository.save(userMapper.userToUserEntity(user)));
         } else {
             log.info("Don't find user by this login");
             throw new EntityNotFoundRuntimeException("Don't find user by this login");
         }
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String login) {
-        log.info("ServiceUser:loadUserByUsername");
-        Optional<UserEntity> byLogin = userRepository.findByLogin(login);
-        return byLogin.map(userMapper::userEntityToUser).orElse(null);
     }
 }

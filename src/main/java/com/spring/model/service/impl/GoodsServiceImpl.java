@@ -39,16 +39,6 @@ public class GoodsServiceImpl implements GoodService {
                 .orElseThrow(() -> new EntityNotFoundRuntimeException("Don't find good by this name")));
     }
 
-    public Goods findById(Long id) {
-        if (id < 0) {
-            log.error("Id not exist");
-            throw new IdInvalidRuntimeException("Id not exist");
-        }
-
-        return goodMapper.goodEntityToGood(goodsRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundRuntimeException("Don't find good by this id")));
-    }
-
     @Override
     public Page<Goods> view(int currentPage, int pageSize) {
         PageRequest sortedByCode = PageRequest.of(currentPage - 1, pageSize, Sort.by("code"));
@@ -67,11 +57,6 @@ public class GoodsServiceImpl implements GoodService {
 
     private long countAllGoods() {
         return goodsRepository.count();
-    }
-
-    @Override
-    public void save(Goods goods) {
-        goodsRepository.save(goodMapper.goodToGoodEntity(goods));
     }
 
     @Override

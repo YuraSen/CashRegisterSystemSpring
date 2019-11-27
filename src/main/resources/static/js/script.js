@@ -12,6 +12,7 @@ if (id_code != null) {
 	    }
 	});
 }
+
 function check_pass() {
     if (document.getElementById('id_password').value ==
             document.getElementById('id_confirm').value) {

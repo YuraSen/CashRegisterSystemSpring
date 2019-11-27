@@ -17,6 +17,6 @@ public interface CheckService {
 
     void cancelCheckSpec(List<Checkspec> checkspecs, Integer count);
 
-    public void cancelCheckSpec(Check check);
+    void cancelCheckSpec(Check check);
 
 }

@@ -9,8 +9,8 @@
 <body>
 	<div th:include="header"></div>
  	<div><p th:text="#{title} + '. ' + #{index.welcome}"></p></div>
-	<div th:if="${session.userNotExists}">
-      <p class="h4" th:text="#{index.nouser}">
+	<div th:if="${session.userNotExists}">		   
+      <p class="h4" th:text="#{index.nouser}">		   
     </div>
 	<div th:if="${session.user == null}">
 		<FORM class="px-4 py-3" method="POST">

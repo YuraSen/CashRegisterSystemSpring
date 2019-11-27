@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
@@ -14,7 +13,7 @@ import java.util.Collection;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Builder
 
-public class UserType implements GrantedAuthority {
+public class UserType {
     private Long id;
 
     private String type;
@@ -22,11 +21,6 @@ public class UserType implements GrantedAuthority {
     private String description;
 
     private Collection<User> userCollection;
-
-    @Override
-    public String getAuthority() {
-        return type;
-    }
 }
 
 

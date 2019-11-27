@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,6 +24,7 @@ import java.util.List;
 public class ReportServiceImpl implements ReportService {
 
     private final FiscalRepository fiscalRepository;
+    private final CheckRepository checkRepository;
     private final FiscalMapper fiscalMapper;
 
     @Override

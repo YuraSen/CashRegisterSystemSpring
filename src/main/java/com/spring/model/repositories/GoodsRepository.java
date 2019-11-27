@@ -4,6 +4,7 @@ import com.spring.model.entity.GoodsEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -15,9 +16,9 @@ public interface GoodsRepository extends JpaRepository<GoodsEntity, Long> {
 
     Optional<GoodsEntity> findByName(String name);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("Update GoodsEntity g SET g.quant=g.quant- :quant WHERE g.id=:id")
-    Integer reduceQuant(Long id, double quant);
+    Integer reduceQuant(@Param("id") Long id, @Param("quant") double quant);
 
     long count();
 }

@@ -71,7 +71,7 @@ public class CheckServiceImpl implements CheckService {
 
         for (Checkspec checkspec : checkspecs) {
             checkspec.setCheck(check);
-//            Goods goods = checkspec.getGoods();
+            Goods goods = checkspec.getGoods();
 //            if (goods != null) {
 //                goodsService.reduceQuant(goods.getId(), checkspec.getQuant());
 //            }
