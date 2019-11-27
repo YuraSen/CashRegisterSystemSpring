@@ -128,7 +128,7 @@ public class CheckServiceImpl implements CheckService {
     }
 
     @Override
-    public void cancelCheckSpec(Check check) {
+    public void cancelCheck(Check check) {
         if (check != null) {
             check.setCanceled(1);
             checkRepository.save(checkMapper.checkToCheckEntity(check));

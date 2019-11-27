@@ -59,7 +59,7 @@ public class CancelController {
     @PostMapping(value = "/cancel", params = "btnCancelCheck")
     public String cancelCheck(HttpSession session) {
         Check check = (Check) session.getAttribute("check");
-        checkService.cancelCheckSpec(check);
+        checkService.cancelCheck(check);
         return "/cancel";
     }
 
