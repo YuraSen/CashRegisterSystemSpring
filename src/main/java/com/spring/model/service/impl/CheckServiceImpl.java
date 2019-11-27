@@ -35,14 +35,9 @@ public class CheckServiceImpl implements CheckService {
     private final CheckspecMapper checkspecMapper;
 
     @Override
-    public Checkspec addCheckSpec(Integer code, String name, Double quant, Integer nds) {
-        Goods existsGoods;
-        if (code != null) {
-            existsGoods = goodsService.findByCode(code);
-        } else {
-            existsGoods = goodsService.findByName(name);
-        }
-
+    public Checkspec addCheckSpec(Integer code, String name, Double quant, Integer nds)
+    {
+        Goods existsGoods = goodsService.findByCode(code);
         Checkspec spec = new Checkspec();
         spec.setGoods(existsGoods);
         spec.setQuant(quant);
