@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 public class CheckMapper {
     private UserMapper userMapper;
 
-    public Check checkEntityToCheck(CheckEntity checkEntity){
-        if(checkEntity == null){
+    public Check checkEntityToCheck(CheckEntity checkEntity) {
+        if (checkEntity == null) {
             return null;
         }
 
@@ -30,8 +30,8 @@ public class CheckMapper {
                 .build();
     }
 
-    public CheckEntity checkToCheckEntity(Check check){
-        if(check == null){
+    public CheckEntity checkToCheckEntity(Check check) {
+        if (check == null) {
             return null;
         }
 

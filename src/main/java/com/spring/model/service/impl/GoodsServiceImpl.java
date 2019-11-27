@@ -3,7 +3,6 @@ package com.spring.model.service.impl;
 import com.spring.model.domain.Goods;
 import com.spring.model.entity.GoodsEntity;
 import com.spring.model.exception.EntityNotFoundRuntimeException;
-import com.spring.model.exception.IdInvalidRuntimeException;
 import com.spring.model.repositories.GoodsRepository;
 import com.spring.model.service.GoodService;
 import com.spring.model.service.mapper.GoodMapper;

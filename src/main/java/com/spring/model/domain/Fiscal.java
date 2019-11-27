@@ -14,7 +14,7 @@ import javax.validation.constraints.Min;
 @NoArgsConstructor
 @Builder
 
-public class Fiscal{
+public class Fiscal {
     private Long id;
 
     @Min(1)
