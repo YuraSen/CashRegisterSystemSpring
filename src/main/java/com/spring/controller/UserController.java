@@ -42,8 +42,8 @@ public class UserController {
                                    @RequestParam("password") String password,
                                    HttpSession session,
                                    Model model) {
-        User user = userService.findByLogin(email);
-        if (user != null && user.getPassword().equals(DigestUtils.sha256Hex(password))) {
+        User user = userService.findByLoginAndPassword(email, password);
+        if (user != null) {
             session.setAttribute("user", user);
             session.setAttribute("userNotExists", null);
             log.info("Авторизация пользователя " + user.getName());

@@ -4,7 +4,7 @@ import com.spring.model.domain.User;
 import com.spring.model.domain.UserType;
 
 public interface UserService {
-    User findByLogin(String login);
+    User findByLoginAndPassword(String login, String password);
 
     User registration(User user);
 }
