@@ -1,14 +1,14 @@
 package com.spring.model.repositories;
 
 import com.spring.model.entity.CheckEntity;
-import com.spring.model.entity.CheckspecEntity;
+import com.spring.model.entity.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface CheckspecRepository extends JpaRepository<CheckspecEntity, Long> {
+public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
-    List<CheckspecEntity> findAllByCheck(CheckEntity check);
+    List<OrderEntity> findAllByCheck(CheckEntity check);
 }

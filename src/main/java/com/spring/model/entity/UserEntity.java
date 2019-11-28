@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,7 +23,7 @@ public class UserEntity {
     private Long id;
 
     @Basic(optional = false)
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Basic(optional = false)
@@ -35,7 +35,7 @@ public class UserEntity {
     private String name;
 
     @OneToMany(cascade = CascadeType.DETACH, mappedBy = "creator")
-    private Collection<CheckEntity> checkCollection;
+    private List<CheckEntity> checks;
 
     @JoinColumn(name = "id_user_type", referencedColumnName = "id")
     @ManyToOne(optional = false)

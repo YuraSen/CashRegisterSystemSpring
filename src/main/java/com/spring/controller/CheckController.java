@@ -1,16 +1,13 @@
 package com.spring.controller;
 
-import com.spring.model.domain.Checkspec;
+import com.spring.model.domain.Order;
 import com.spring.model.domain.User;
 import com.spring.model.service.CheckService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,18 +27,16 @@ public class CheckController {
         return "/check";
     }
 
-    @PostMapping(value = "/check", params = "btnAddCheckspec")
-    public String addCheckSpec(HttpSession session,
-                               @RequestParam("code") Integer code,
-                               @RequestParam("quant") Double quant, @RequestParam("nds") Integer nds) {
+    @PostMapping(value = "/check", params = "btnAddOrder")
+    public String addOrder(HttpSession session, @ModelAttribute Order order) {
         @SuppressWarnings("unchecked")
-        List<Checkspec> checkspecs = (List<Checkspec>) session.getAttribute("addcheckspecs");
-        if (checkspecs == null) {
-            checkspecs = new ArrayList<>();
-            session.setAttribute("addcheckspecs", checkspecs);
+        List<Order> orders = (List<Order>) session.getAttribute("addOrders");
+        if (orders == null) {
+            orders = new ArrayList<>();
+            session.setAttribute("addOrders", orders);
         }
-        Checkspec spec = checkService.addCheckSpec(code, quant, nds);
-        checkspecs.add(spec);
+        Order orderResult = checkService.addOrder(order);
+        orders.add(orderResult);
 
         return "/check";
     }
@@ -49,15 +44,15 @@ public class CheckController {
     @PostMapping(value = "/check", params = "btnCreateCheck")
     public String createCheck(HttpSession session, HttpServletRequest request) {
         @SuppressWarnings("unchecked")
-        List<Checkspec> checkspecs = (List<Checkspec>) session.getAttribute("addcheckspecs");
+        List<Order> orders = (List<Order>) session.getAttribute("addOrders");
 
-        if (!checkspecs.isEmpty()) {
-            checkService.addCheck((User) session.getAttribute("user"), checkspecs);
+        if (!orders.isEmpty()) {
+            checkService.addCheck((User) session.getAttribute("user"), orders);
             request.setAttribute("addedCheck", true);
         } else {
             request.setAttribute("addedCheck", false);
         }
-        checkspecs.clear();
+        orders.clear();
 
         return "/check";
     }
@@ -65,9 +60,9 @@ public class CheckController {
     @PostMapping(value = "/check", params = "btnCancelCheck")
     public String clearCheck(HttpSession session) {
         @SuppressWarnings("unchecked")
-        List<Checkspec> checkspecs = (List<Checkspec>) session.getAttribute("addcheckspecs");
-        if (!checkspecs.isEmpty()) {
-            checkspecs.clear();
+        List<Order> orders = (List<Order>) session.getAttribute("addOrders");
+        if (!orders.isEmpty()) {
+            orders.clear();
         }
 
         return "/check";
@@ -76,9 +71,9 @@ public class CheckController {
     @GetMapping("/check/del/{count}")
     public ModelAndView editGoods(HttpSession session, @PathVariable Integer count) {
         @SuppressWarnings("unchecked")
-        List<Checkspec> checkspecs = (List<Checkspec>) session.getAttribute("addcheckspecs");
-        if (!checkspecs.isEmpty()) {
-            checkspecs.remove(count - 1);
+        List<Order> orders = (List<Order>) session.getAttribute("addOrders");
+        if (!orders.isEmpty()) {
+            orders.remove(count - 1);
         }
         return new ModelAndView("redirect:/check");
     }

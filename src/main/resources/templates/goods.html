@@ -12,39 +12,39 @@
       		<p class="h4" th:text="#{menu.goods} + ' ' + ${addedGood} + ' ' + #{check.success}">  
    		</div>
    		<div th:if="${editCode == null}">
-			<FORM method="POST">
+			<FORM method="POST" th:object="${good}">
 			  <div class="form-group row">
 			    <label class="col-sm-2 col-form-label" th:text="#{check.goodname}"></label>
 			    <div class="col-sm-10">
-			      <input name="name" type="text" size="45" required>
+			      <input name="name" type="text" size="45"  th:field="${good.name}" required>
 			    </div>
 			  </div>
 			  
 			  <div class="form-group row">
 			    <label class="col-sm-2 col-form-label" th:text="#{check.code}"></label>
 			    <div class="col-sm-10">
-			      <input name="code" type="number" size="45" required>
+			      <input name="code" type="number" size="45" th:field="${good.code}" required>
 			    </div>
 			  </div>
 			  
 			  <div class="form-group row">
 			    <label class="col-sm-2 col-form-label" th:text="#{check.quant}"></label>
 			    <div class="col-sm-10">
-			      <input name="quant" type="number" value="0" min="0" step="0.1" required>
+			      <input name="quant" type="number" value="0" min="0" step="0.1" th:field="${good.quant}" required>
 			    </div>
 			  </div>
 			  
 			  <div class="form-group row">
 			    <label class="col-sm-2 col-form-label" th:text="#{check.price}"></label>
 			    <div class="col-sm-10">
-			      <input name="price" type="number" value="0" min="0" step="0.01" required>
+			      <input name="price" type="number" value="0" min="0" step="0.01" th:field="${good.price}" required>
 			    </div>
 			  </div>
 			  
 			  <div class="form-group row">
 			    <label class="col-sm-2 col-form-label" th:text="#{goods.measure}"></label>
 			    <div class="col-sm-10">
-			      	<select class="selectpicker" name="measure" size="1">
+			      	<select class="selectpicker" name="measure" size="1" th:field="${good.measure}>
 		  				<option value="кг" th:text="#{goods.kilo}"/>
 		  				<option value="шт" th:text="#{goods.pc}"/>
 					</select>
@@ -53,7 +53,7 @@
 			  <div class="form-group row">
 			    <label class="col-sm-2 col-form-label" th:text="#{goods.comments}"></label>
 			    <div class="col-sm-10">
-			      <input name="comments" type="text" size="45">
+			      <input name="comments" type="text" size="45" th:field="${good.comments}>
 			    </div>
 			  </div>	  
 			  <button type="submit" class="btn btn-primary" name="btnSaveGood" th:text="#{goods.add}"></button>		

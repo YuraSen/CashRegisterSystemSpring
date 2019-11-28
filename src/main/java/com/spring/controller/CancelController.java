@@ -1,7 +1,7 @@
 package com.spring.controller;
 
 import com.spring.model.domain.Check;
-import com.spring.model.domain.Checkspec;
+import com.spring.model.domain.Order;
 import com.spring.model.domain.Report;
 import com.spring.model.service.CheckService;
 import com.spring.model.service.ReportService;
@@ -33,10 +33,10 @@ public class CancelController {
     public String searchCheck(HttpSession session, @RequestParam("checkid") Long checkid) {
 
         Check check = checkService.findById(checkid);
-        List<Checkspec> checkspecs = checkService.findCheckspecByCheck(checkid);
+        List<Order> orders = checkService.findOrderByCheck(checkid);
 
         session.setAttribute("check", check);
-        session.setAttribute("checkspecs", checkspecs);
+        session.setAttribute("addOrders", orders);
         session.setAttribute("checkfind", checkid);
 
         return "/cancel";
@@ -45,8 +45,8 @@ public class CancelController {
     @GetMapping("/cancel/edit/{count}")
     public ModelAndView cancelSpec(HttpSession session, @PathVariable Integer count) {
         @SuppressWarnings("unchecked")
-        List<Checkspec> checkspecs = (List<Checkspec>) session.getAttribute("checkspecs");
-        checkService.cancelCheckSpec(checkspecs, count);
+        List<Order> orders = (List<Order>) session.getAttribute("orders");
+        checkService.cancelOrder(orders, count);
 
         return new ModelAndView("redirect:/cancel");
     }

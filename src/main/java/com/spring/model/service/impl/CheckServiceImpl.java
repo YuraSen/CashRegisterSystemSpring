@@ -1,18 +1,18 @@
 package com.spring.model.service.impl;
 
 import com.spring.model.domain.Check;
-import com.spring.model.domain.Checkspec;
 import com.spring.model.domain.Goods;
+import com.spring.model.domain.Order;
 import com.spring.model.domain.User;
 import com.spring.model.entity.CheckEntity;
-import com.spring.model.entity.CheckspecEntity;
+import com.spring.model.entity.OrderEntity;
 import com.spring.model.exception.*;
 import com.spring.model.repositories.CheckRepository;
-import com.spring.model.repositories.CheckspecRepository;
+import com.spring.model.repositories.OrderRepository;
 import com.spring.model.service.CheckService;
 import com.spring.model.service.GoodService;
 import com.spring.model.service.mapper.CheckMapper;
-import com.spring.model.service.mapper.CheckspecMapper;
+import com.spring.model.service.mapper.OrderMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,35 +29,33 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class CheckServiceImpl implements CheckService {
 
+    private static final int CANCELED = 1;
+    private static final int NOT_CANCELLED = 0;
     private final CheckRepository checkRepository;
-    private final CheckspecRepository checkspecRepository;
+    private final OrderRepository orderRepository;
     private final CheckMapper checkMapper;
-    private final CheckspecMapper checkspecMapper;
+    private final OrderMapper orderMapper;
     private final GoodService goodsService;
 
     @Override
-    public Checkspec addCheckSpec(Integer code, Double quant, Integer nds) {
-        if (Objects.isNull(code) || Objects.isNull(quant) || Objects.isNull(nds)
-                || quant < 0 || nds < 0) {
+    public Order addOrder(Order order) {
+        if (Objects.isNull(order)) {
             log.warn("Data for add order is uncorrected");
             throw new InvalidDataRuntimeException("Data for add order is uncorrected");
         }
 
-        Goods goods = goodsService.findByCode(code);
-        Checkspec spec = new Checkspec();
-        spec.setGoods(goods);
-        spec.setQuant(quant);
-        spec.setPrice(goods.getPrice());
-        spec.setTotal(BigDecimal.valueOf(quant).multiply(BigDecimal.valueOf(spec.getPrice())).doubleValue());
-        spec.setNds(nds);
-        spec.setNdstotal(BigDecimal.valueOf(spec.getTotal()).multiply(BigDecimal.valueOf(spec.getNds())).divide(new BigDecimal(100)).doubleValue());
-        spec.setCanceled(0);
+        Goods goods = goodsService.findByCode(order.getGoods().getCode());
+        
+        order.setPrice(goods.getPrice());
+        order.setTotal(BigDecimal.valueOf(order.getQuant()).multiply(BigDecimal.valueOf(order.getPrice())).doubleValue());
+        order.setNdstotal(BigDecimal.valueOf(order.getTotal()).multiply(BigDecimal.valueOf(order.getNds())).divide(new BigDecimal(100)).doubleValue());
+        order.setCanceled(NOT_CANCELLED);
 
-        return spec;
+        return order;
     }
 
     @Override
-    public void addCheck(User user, List<Checkspec> checkspecs) {
+    public void addCheck(User user, List<Order> orders) {
         if (user == null) {
             log.warn("User isn't exist");
             throw new InvalidDataRuntimeException("User isn't exist");
@@ -65,18 +63,21 @@ public class CheckServiceImpl implements CheckService {
 
         Check check = new Check();
         check.setCreator(user);
-        double total = checkspecs.stream().mapToDouble(Checkspec::getTotal).sum();
+        double total = orders.stream().mapToDouble(Order::getTotal).sum();
         check.setTotal(total);
-        check.setCanceled(0);
-        check = checkMapper.checkEntityToCheck(checkRepository.save(checkMapper.checkToCheckEntity(check)));
+        check.setCanceled(NOT_CANCELLED);
 
-        for (Checkspec checkspec : checkspecs) {
-            checkspec.setCheck(check);
-            Goods goods = checkspec.getGoods();
+        CheckEntity checkEntity = checkRepository.save(checkMapper.checkToCheckEntity(check));
+        check = checkMapper.checkEntityToCheck(checkEntity);
+
+        for (Order order : orders) {
+            order.setCheck(check);
+            Goods goods = order.getGoods();
 //            if (goods != null) {
-//                goodsService.reduceQuant(goods.getId(), checkspec.getQuant());
+//                goodsService.reduceQuant(goods.getId(), order.getQuant());
 //            }
-            checkspecRepository.save(checkspecMapper.checkspecToChecksoecEntity(checkspec));
+            OrderEntity orderEntity = orderMapper.orderToOrderEntity(order);
+            orderRepository.save(orderEntity);
         }
     }
 
@@ -92,7 +93,7 @@ public class CheckServiceImpl implements CheckService {
     }
 
     @Override
-    public List<Checkspec> findCheckspecByCheck(Long checkId) {
+    public List<Order> findOrderByCheck(Long checkId) {
         if (checkId < 0) {
             log.warn("Id not exist");
             throw new InvalidIdRuntimeException("Id not exist");
@@ -102,31 +103,36 @@ public class CheckServiceImpl implements CheckService {
                 .orElseThrow(() -> new EntityNotFoundRuntimeException("Don't find check by this id")));
 
         CheckEntity checkEntity = checkMapper.checkToCheckEntity(check);
-        List<CheckspecEntity> checkspecEntities = checkspecRepository.findAllByCheck(checkEntity);
+        List<OrderEntity> orderEntities = orderRepository.findAllByCheck(checkEntity);
 
-        return checkspecEntities.isEmpty() ?
+        return orderEntities.isEmpty() ?
                 Collections.emptyList() :
-                checkspecEntities.stream()
-                        .map(checkspecMapper::checkspecEntityToCheckspec)
+                orderEntities.stream()
+                        .map(orderMapper::orderEntityToOrder)
                         .collect(Collectors.toList());
     }
 
     @Override
-    public void cancelCheckSpec(List<Checkspec> checkspecs, Integer count) {
-        if (checkspecs.isEmpty() || Objects.isNull(count) || count < 0) {
+    public void cancelOrder(List<Order> orders, Integer count) {
+        if (orders.isEmpty() || Objects.isNull(count) || count < 0) {
             log.warn("Order not exist");
             throw new OrderNotExistRuntimeException("Order not exist");
         }
 
-        Checkspec checkspec = checkspecs.get(count - 1);
-        checkspec.setCanceled(1);
-        checkspecRepository.save(checkspecMapper.checkspecToChecksoecEntity(checkspec));
-        double total = checkspecs.stream()
+        Order order = orders.get(count - 1);
+        order.setCanceled(CANCELED);
+
+        OrderEntity orderEntity = orderMapper.orderToOrderEntity(order);
+        orderRepository.save(orderEntity);
+
+        double total = orders.stream()
                 .filter(spec -> spec.getCanceled() == 0)
-                .mapToDouble(Checkspec::getTotal).sum();
-        Check check = checkspec.getCheck();
+                .mapToDouble(Order::getTotal).sum();
+        Check check = order.getCheck();
         check.setTotal(total);
-        checkRepository.save(checkMapper.checkToCheckEntity(check));
+
+        CheckEntity checkEntity = checkMapper.checkToCheckEntity(check);
+        checkRepository.save(checkEntity);
     }
 
     @Override
@@ -136,7 +142,9 @@ public class CheckServiceImpl implements CheckService {
             throw new CheckNotExistRuntimeException("Check not exist");
         }
 
-        check.setCanceled(1);
-        checkRepository.save(checkMapper.checkToCheckEntity(check));
+        check.setCanceled(CANCELED);
+
+        CheckEntity checkEntity = checkMapper.checkToCheckEntity(check);
+        checkRepository.save(checkEntity);
     }
 }

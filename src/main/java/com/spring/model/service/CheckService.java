@@ -1,22 +1,22 @@
 package com.spring.model.service;
 
 import com.spring.model.domain.Check;
-import com.spring.model.domain.Checkspec;
+import com.spring.model.domain.Order;
 import com.spring.model.domain.User;
 
 import java.util.List;
 
 public interface CheckService {
 
-    Checkspec addCheckSpec(Integer code, Double quant, Integer nds);
+    Order addOrder(Order order);
 
-    void addCheck(User user, List<Checkspec> checkspecs);
+    void addCheck(User user, List<Order> orders);
 
     Check findById(Long checkId);
 
-    List<Checkspec> findCheckspecByCheck(Long checkId);
+    List<Order> findOrderByCheck(Long checkId);
 
-    void cancelCheckSpec(List<Checkspec> checkspecs, Integer count);
+    void cancelOrder(List<Order> orders, Integer count);
 
     void cancelCheck(Check check);
 }

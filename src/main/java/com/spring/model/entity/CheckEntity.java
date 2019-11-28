@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -44,7 +44,7 @@ public class CheckEntity {
     private Integer registration;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "check")
-    private Collection<CheckspecEntity> checkspecCollection;
+    private List<OrderEntity> orders;
 
     @JoinColumn(name = "creator", referencedColumnName = "id")
     @ManyToOne(optional = false)

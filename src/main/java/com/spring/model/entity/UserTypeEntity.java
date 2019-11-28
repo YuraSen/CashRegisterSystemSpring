@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -30,5 +30,5 @@ public class UserTypeEntity {
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userType")
-    private Collection<UserEntity> userCollection;
+    private List<UserEntity> users;
 }

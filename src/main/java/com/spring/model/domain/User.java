@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
-import java.util.Collection;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -25,7 +25,7 @@ public class User {
 
     private String name;
 
-    private Collection<Check> checkCollection;
+    private List<Check> checks;
 
     private UserType userType;
 }

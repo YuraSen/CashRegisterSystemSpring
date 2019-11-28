@@ -4,9 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Collection;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,7 +19,7 @@ public class UserType {
 
     private String description;
 
-    private Collection<User> userCollection;
+    private List<User> users;
 }
 
 

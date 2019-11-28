@@ -57,23 +57,20 @@ public class GoodsServiceImpl implements GoodService {
     }
 
     @Override
-    public void addGoods(Integer code, String name, Double quant, Double price, String measure, String comments) {
-//        if..
-        Optional<GoodsEntity> goodsEntity = goodsRepository.findByCode(code);
-        if (goodsEntity.isPresent()) {
-            log.warn("Товар с кодом " + code + " уже существует");
-            throw new GoodsIsExistRuntimeException("Товар с кодом " + code + " уже существует");
+    public void addGoods(Goods good) {
+        if(Objects.isNull(good)){
+            log.warn("Product is null");
+            throw new GoodsIsExistRuntimeException("Product is null");
+        }
+        Optional<GoodsEntity> findGoodsEntity = goodsRepository.findByCode(good.getCode());
+
+        if (findGoodsEntity.isPresent()) {
+            log.warn("Product is exist with this code");
+            throw new GoodsIsExistRuntimeException("Product is exist with this code");
         }
 
-        Goods goods = new Goods();
-        goods.setCode(code);
-        goods.setName(name);
-        goods.setQuant(quant);
-        goods.setPrice(price);
-        goods.setMeasure(measure);
-        goods.setComments(comments);
-
-        goodsRepository.save(goodMapper.goodToGoodEntity(goods));
+        GoodsEntity goodEntity = goodMapper.goodToGoodEntity(good);
+        goodsRepository.save(goodEntity);
     }
 
 
@@ -88,6 +85,7 @@ public class GoodsServiceImpl implements GoodService {
         }
         goods.setQuant(newQuant);
         goods.setPrice(newPrice);
-        goodsRepository.save(goodMapper.goodToGoodEntity(goods));
+        GoodsEntity goodsEntity = goodMapper.goodToGoodEntity(goods);
+        goodsRepository.save(goodsEntity);
     }
 }

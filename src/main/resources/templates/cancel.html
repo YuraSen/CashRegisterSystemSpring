@@ -22,7 +22,7 @@
 			 </div>
 			 <button type="submit" name="btnSearchCheck" class="btn btn-primary" th:text="#{cancel.find}"></button>
 		</FORM>
-		<div th:if="${session.check != null and session.check.canceled == 0 and session.checkspecs != null}">
+		<div th:if="${session.check != null and session.check.canceled == 0 and session.orders != null}">
 			<p class="h4" th:text="#{check.check} + ' № ' + ${session.check.id} + ' на сумму ' + ${session.check.total}">						
 				<table class="table table-sm">
 				<thead class="thead-dark">
@@ -38,7 +38,7 @@
 					<th></th>
 				</tr>
 				</thead>
-				<tr th:each="spec, rowStat : ${session.checkspecs}">
+				<tr th:each="spec, rowStat : ${session.orders}">
 					<td th:text="${rowStat.count}"></td>
 					<td th:text ="${spec.goods.name}"></td>
 					<td th:text ="${spec.goods.code}"></td>

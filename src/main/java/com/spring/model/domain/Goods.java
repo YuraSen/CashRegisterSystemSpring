@@ -4,11 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import java.util.Collection;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -36,5 +35,5 @@ public class Goods {
 
     private String comments;
 
-    private Collection<Checkspec> checkspecCollection;
+    private List<Order> orders;
 }

@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -45,5 +45,5 @@ public class GoodsEntity {
     private String comments;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "goods")
-    private Collection<CheckspecEntity> checkspecCollection;
+    private List<OrderEntity> orders;
 }

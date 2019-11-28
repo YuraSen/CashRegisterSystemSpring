@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -35,13 +32,11 @@ public class GoodsController {
 
     @PostMapping("/goods")
     public String addGoods(Model model, @RequestParam("code") Integer code, @RequestParam("name") String name,
-                           @RequestParam("quant") Double quant, @RequestParam("price") Double price,
-                           @RequestParam("measure") String measure,
-                           @RequestParam("comments") String comments,
+                           @ModelAttribute Goods good,
                            @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
 
-        goodsService.addGoods(code, name, quant, price, measure, comments);
-        model.addAttribute("addedGood", name);
+        goodsService.addGoods(good);
+        model.addAttribute("addedGood", good.getName());
 
         addPagination(model, page, size);
 
@@ -59,8 +54,10 @@ public class GoodsController {
 
     @PostMapping("/goods/edit/{code}")
     public ModelAndView updateGoods(Model model, @PathVariable Integer code,
-                                    @RequestParam("changequant") Double changequant, @RequestParam("changeprice") Double changeprice,
-                                    @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+                                    @RequestParam("changequant") Double changequant,
+                                    @RequestParam("changeprice") Double changeprice,
+                                    @RequestParam("page") Optional<Integer> page,
+                                    @RequestParam("size") Optional<Integer> size) {
         goodsService.changeGoods(code, changequant, changeprice);
         addPagination(model, page, size);
 

@@ -2,6 +2,7 @@ package com.spring.model.service.impl;
 
 import com.spring.model.domain.User;
 import com.spring.model.domain.UserType;
+import com.spring.model.entity.UserEntity;
 import com.spring.model.exception.EntityNotFoundRuntimeException;
 import com.spring.model.exception.InvalidDataRuntimeException;
 import com.spring.model.repositories.UserRepository;
@@ -57,6 +58,9 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(DigestUtils.sha256Hex(user.getPassword()));
         user.setUserType(type);
-        return userMapper.userEntityToUser(userRepository.save(userMapper.userToUserEntity(user)));
+
+        UserEntity entity = userMapper.userToUserEntity(user);
+        UserEntity userEntity = userRepository.save(entity);
+        return userMapper.userEntityToUser(userEntity);
     }
 }
