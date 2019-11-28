@@ -7,13 +7,15 @@ import com.spring.model.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Component
 @AllArgsConstructor
 public class CheckMapper {
     private UserMapper userMapper;
 
     public Check checkEntityToCheck(CheckEntity checkEntity) {
-        if (checkEntity == null) {
+        if (Objects.isNull(checkEntity)) {
             return null;
         }
 
@@ -31,7 +33,7 @@ public class CheckMapper {
     }
 
     public CheckEntity checkToCheckEntity(Check check) {
-        if (check == null) {
+        if (Objects.isNull(check)) {
             return null;
         }
 

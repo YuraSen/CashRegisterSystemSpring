@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface CheckspecRepository extends JpaRepository<CheckspecEntity, Long> {
+
     List<CheckspecEntity> findAllByCheck(CheckEntity check);
 }

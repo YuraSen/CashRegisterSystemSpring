@@ -11,13 +11,6 @@
 		<div th:if="${addedGood != null}">		   
       		<p class="h4" th:text="#{menu.goods} + ' ' + ${addedGood} + ' ' + #{check.success}">  
    		</div>
-		<div th:if="${existsCode != null}">		   
-      		<p class="h4" th:text="#{check.code} + ' ' + ${existsCode} + ' ' + #{goods.exists}" >
-   		</div>
-		<div th:if="${existsName != null}">		   
-      		<p class="h4" th:text="#{check.goodname} + ' ' + ${existsName} + ' ' + #{goods.exists}">
-   		</div>
-   		
    		<div th:if="${editCode == null}">
 			<FORM method="POST">
 			  <div class="form-group row">

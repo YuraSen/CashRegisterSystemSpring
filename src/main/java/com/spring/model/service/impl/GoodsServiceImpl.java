@@ -3,6 +3,8 @@ package com.spring.model.service.impl;
 import com.spring.model.domain.Goods;
 import com.spring.model.entity.GoodsEntity;
 import com.spring.model.exception.EntityNotFoundRuntimeException;
+import com.spring.model.exception.GoodsIsExistRuntimeException;
+import com.spring.model.exception.InvalidDataRuntimeException;
 import com.spring.model.repositories.GoodsRepository;
 import com.spring.model.service.GoodService;
 import com.spring.model.service.mapper.GoodMapper;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -31,11 +34,6 @@ public class GoodsServiceImpl implements GoodService {
         return goodMapper.goodEntityToGood(goodsRepository.findByCode(code)
 
                 .orElseThrow(() -> new EntityNotFoundRuntimeException("Don't find good by this code")));
-    }
-
-    public Goods findByName(String name) {
-        return goodMapper.goodEntityToGood(goodsRepository.findByName(name)
-                .orElseThrow(() -> new EntityNotFoundRuntimeException("Don't find good by this name")));
     }
 
     @Override
@@ -59,7 +57,14 @@ public class GoodsServiceImpl implements GoodService {
     }
 
     @Override
-    public Long addGoods(Integer code, String name, Double quant, Double price, String measure, String comments) {
+    public void addGoods(Integer code, String name, Double quant, Double price, String measure, String comments) {
+//        if..
+        Optional<GoodsEntity> goodsEntity = goodsRepository.findByCode(code);
+        if (goodsEntity.isPresent()) {
+            log.warn("Товар с кодом " + code + " уже существует");
+            throw new GoodsIsExistRuntimeException("Товар с кодом " + code + " уже существует");
+        }
+
         Goods goods = new Goods();
         goods.setCode(code);
         goods.setName(name);
@@ -67,34 +72,22 @@ public class GoodsServiceImpl implements GoodService {
         goods.setPrice(price);
         goods.setMeasure(measure);
         goods.setComments(comments);
-        Optional<GoodsEntity> goodsEntity = goodsRepository.findByCode(code);
-        if (goodsEntity.isPresent()) {
-            log.info("Товар с кодом " + code + " уже существует");
-            return -1L;
-        } else {
-            goodsEntity = goodsRepository.findByName(name);
-            if (goodsEntity.isPresent()) {
-                log.info("Товар " + name + " уже существует");
-                return -2L;
-            } else {
-                log.info("Товар добавлен");
-                GoodsEntity result = goodsRepository.save(goodMapper.goodToGoodEntity(goods));
-                return result.getId();
-            }
-        }
+
+        goodsRepository.save(goodMapper.goodToGoodEntity(goods));
     }
+
 
     @Override
     public void changeGoods(Integer code, Double newQuant, Double newPrice) {
         Goods goods = goodMapper.goodEntityToGood(goodsRepository.findByCode(code)
                 .orElseThrow(() -> new EntityNotFoundRuntimeException("Don't find good by this code")));
 
-        if (newQuant != null) {
-            goods.setQuant(newQuant);
+        if (Objects.isNull(newQuant) || Objects.isNull(newPrice)) {
+            log.warn("Invalid input good data");
+            throw new InvalidDataRuntimeException("Invalid input good data");
         }
-        if (newPrice != null) {
-            goods.setPrice(newPrice);
-        }
+        goods.setQuant(newQuant);
+        goods.setPrice(newPrice);
         goodsRepository.save(goodMapper.goodToGoodEntity(goods));
     }
 }

@@ -12,7 +12,7 @@
       
 		<p th:if="${session.check != null and session.check.canceled == 1}" class="h4" 
 			th:text="#{check.check} + ' № ' + ${session.check.id} + ' ' + #{cancel.canceled} + '!'">			
-		<p th:if="${session.checkfind != null}" class="h4" th:text="#{cancel.findfail}">
+		<p th:if="${session.checkfind == null}" class="h4" th:text="#{cancel.findfail}">
     	<FORM class="px-4 py-3" method="POST">
     		<div class="form-group row">
 			    <label class="col-sm-2 col-form-label" th:text="#{check.number} + ':'"></label>

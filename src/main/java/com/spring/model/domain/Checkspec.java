@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -13,8 +12,8 @@ import javax.validation.constraints.Min;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
 public class Checkspec {
+
     private Long id;
 
     @Min(1)

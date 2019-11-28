@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -31,18 +30,15 @@ public class CancelController {
     }
 
     @PostMapping(value = "/cancel", params = "btnSearchCheck")
-    public String searchCheck(HttpSession session,
-                              @RequestParam("checkid") Long checkid) {
+    public String searchCheck(HttpSession session, @RequestParam("checkid") Long checkid) {
+
         Check check = checkService.findById(checkid);
         List<Checkspec> checkspecs = checkService.findCheckspecByCheck(checkid);
-        if (Objects.nonNull(check)) {
-            session.setAttribute("check", check);
-            session.setAttribute("checkspecs", checkspecs);
-            session.setAttribute("checkfind", null);
-        } else {
-            session.setAttribute("check", null);
-            session.setAttribute("checkfind", checkid);
-        }
+
+        session.setAttribute("check", check);
+        session.setAttribute("checkspecs", checkspecs);
+        session.setAttribute("checkfind", checkid);
+
         return "/cancel";
     }
 
@@ -51,6 +47,7 @@ public class CancelController {
         @SuppressWarnings("unchecked")
         List<Checkspec> checkspecs = (List<Checkspec>) session.getAttribute("checkspecs");
         checkService.cancelCheckSpec(checkspecs, count);
+
         return new ModelAndView("redirect:/cancel");
     }
 
@@ -58,6 +55,7 @@ public class CancelController {
     public String cancelCheck(HttpSession session) {
         Check check = (Check) session.getAttribute("check");
         checkService.cancelCheck(check);
+
         return "/cancel";
     }
 
@@ -66,6 +64,7 @@ public class CancelController {
         Report xReport = reportService.getDataXReport();
         session.setAttribute("xReport", xReport);
         session.setAttribute("zReport", null);
+
         return new ModelAndView("redirect:/report");
     }
 
@@ -74,6 +73,7 @@ public class CancelController {
         Report zReport = reportService.getDataZReport();
         session.setAttribute("zReport", zReport);
         session.setAttribute("xReport", null);
+
         return new ModelAndView("redirect:/report");
     }
 }

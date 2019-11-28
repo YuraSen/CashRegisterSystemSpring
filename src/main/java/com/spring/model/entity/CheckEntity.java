@@ -16,6 +16,7 @@ import java.util.Date;
 @Builder
 @Table(name = "chec")
 public class CheckEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -25,9 +24,9 @@ public class GoodsController {
     private final GoodService goodsService;
 
     @GetMapping("/goods")
-    public String viewGoods(Model model, @RequestParam("page") Optional<Integer> page,
-                            @RequestParam("size") Optional<Integer> size) {
+    public String viewGoods(Model model, @RequestParam("page") int page, @RequestParam("size") int size) {
         addPagination(model, page, size);
+
         return "/goods";
     }
 
@@ -35,41 +34,36 @@ public class GoodsController {
     public String addGoods(Model model, @RequestParam("code") Integer code, @RequestParam("name") String name,
                            @RequestParam("quant") Double quant, @RequestParam("price") Double price, @RequestParam("measure") String measure,
                            @RequestParam("comments") String comments,
-                           @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
-        Long goodsId = goodsService.addGoods(code, name, quant, price, measure, comments);
-        if (goodsId > 0) {
-            model.addAttribute("addedGood", name);
-        } else if (goodsId == -1) {
-            model.addAttribute("addedGood", null);
-            model.addAttribute("existsCode", code);
-        } else if (goodsId == -2) {
-            model.addAttribute("addedGood", null);
-            model.addAttribute("existsName", name);
-        }
+                           @RequestParam("page") int page, @RequestParam("size") int size) {
+
+        goodsService.addGoods(code, name, quant, price, measure, comments);
+        model.addAttribute("addedGood", name);
+
         addPagination(model, page, size);
+
         return "/goods";
     }
 
     @GetMapping("/goods/edit/{code}")
-    public String editGoods(Model model, @PathVariable Integer code, @RequestParam("page") Optional<Integer> page,
-                            @RequestParam("size") Optional<Integer> size) {
+    public String editGoods(Model model, @PathVariable Integer code, @RequestParam("page") int page,
+                            @RequestParam("size") int size) {
         model.addAttribute("editCode", code);
         addPagination(model, page, size);
+
         return "/goods";
     }
 
     @PostMapping("/goods/edit/{code}")
     public ModelAndView updateGoods(Model model, @PathVariable Integer code,
                                     @RequestParam("changequant") Double changequant, @RequestParam("changeprice") Double changeprice,
-                                    @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+                                    @RequestParam("page") int page, @RequestParam("size") int size) {
         goodsService.changeGoods(code, changequant, changeprice);
         addPagination(model, page, size);
+
         return new ModelAndView("redirect:/goods");
     }
 
-    private void addPagination(Model model, Optional<Integer> page, Optional<Integer> size) {
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(10);
+    private void addPagination(Model model, int currentPage, int pageSize) {
         Page<Goods> goods = goodsService.getPageGoods(currentPage, pageSize);
         model.addAttribute("goods", goods);
         model.addAttribute("currentPage", currentPage);

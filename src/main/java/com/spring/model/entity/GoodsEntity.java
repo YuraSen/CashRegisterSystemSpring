@@ -15,6 +15,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "goods")
 public class GoodsEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)

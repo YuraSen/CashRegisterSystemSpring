@@ -8,6 +8,7 @@ import java.util.List;
 
 @Repository
 public interface FiscalRepository extends JpaRepository<FiscalEntity, Long> {
+
     List<Object[]> createXReport();
 
     List<Object[]> createZReport();

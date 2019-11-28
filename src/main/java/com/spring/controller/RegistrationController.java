@@ -33,10 +33,12 @@ public class RegistrationController {
         if (newUser != null) {
             newUser.setPassword(null);
             session.setAttribute("user", newUser);
+
             return new ModelAndView("redirect:/check");
-        } else {
-            model.addAttribute("existsLogin", user.getLogin());
-            return new ModelAndView("/registration");
         }
+        model.addAttribute("existsEmail", user.getEmail());
+
+        return new ModelAndView("/registration");
+
     }
 }

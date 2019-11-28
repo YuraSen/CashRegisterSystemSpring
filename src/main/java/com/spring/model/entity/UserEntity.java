@@ -15,6 +15,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "user")
 public class UserEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -22,8 +23,8 @@ public class UserEntity {
     private Long id;
 
     @Basic(optional = false)
-    @Column(name = "login")
-    private String login;
+    @Column(name = "email")
+    private String email;
 
     @Basic(optional = false)
     @Column(name = "password")

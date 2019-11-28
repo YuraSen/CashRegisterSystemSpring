@@ -13,8 +13,8 @@ import javax.validation.constraints.Min;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
 public class Fiscal {
+
     private Long id;
 
     @Min(1)

@@ -14,21 +14,32 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Report {
 
     private long number;
+
     private Timestamp printtime;
+
     private BigDecimal countCheck;
+
     private BigInteger countCancelCheck;
+
     private double totalA;
+
     private double ndsTotalA;
+
     private double totalB;
+
     private double ndsTotalB;
+
     private double totalC;
+
     private double ndsTotalC;
+
     private double sumNdsTotal;
+
     private double sumTotal;
+
     private List<Detail> detail = new ArrayList<>();
 
     public class Detail {

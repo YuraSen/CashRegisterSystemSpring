@@ -11,6 +11,7 @@ import java.util.Date;
 
 @Repository
 public interface CheckRepository extends JpaRepository<CheckEntity, Long> {
+
     @Transactional
     @Modifying
     @Query("Update CheckEntity c SET c.registration=1 WHERE DATE(crtime) = DATE(:date)")

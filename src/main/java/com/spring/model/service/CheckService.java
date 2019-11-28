@@ -7,7 +7,8 @@ import com.spring.model.domain.User;
 import java.util.List;
 
 public interface CheckService {
-    Checkspec addCheckSpec(Integer code, String name, Double quant, Integer nds);
+
+    Checkspec addCheckSpec(Integer code, Double quant, Integer nds);
 
     void addCheck(User user, List<Checkspec> checkspecs);
 

@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "checkspec")
 public class CheckspecEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)

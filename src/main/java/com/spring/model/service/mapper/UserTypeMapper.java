@@ -5,13 +5,15 @@ import com.spring.model.entity.UserTypeEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Component
 @AllArgsConstructor
 
 public class UserTypeMapper {
 
     public UserType userTypeEntityToUserType(UserTypeEntity userTypeEntity) {
-        if (userTypeEntity == null) {
+        if (Objects.isNull(userTypeEntity)) {
             return null;
         }
 
@@ -22,8 +24,8 @@ public class UserTypeMapper {
                 .build();
     }
 
-    public UserTypeEntity userTypeToUserTypeEntity(UserType userType) {
-        if (userType == null) {
+    UserTypeEntity userTypeToUserTypeEntity(UserType userType) {
+        if (Objects.isNull(userType)) {
             return null;
         }
 

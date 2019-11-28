@@ -45,6 +45,7 @@ import javax.persistence.*;
         "		AND c.registration IS NULL")
 
 public class FiscalEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)

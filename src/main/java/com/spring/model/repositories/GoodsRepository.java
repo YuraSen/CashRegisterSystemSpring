@@ -12,14 +12,11 @@ import java.util.Optional;
 
 @Repository
 public interface GoodsRepository extends JpaRepository<GoodsEntity, Long> {
-    Optional<GoodsEntity> findByCode(int code);
 
-    Optional<GoodsEntity> findByName(String name);
+    Optional<GoodsEntity> findByCode(int code);
 
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query("Update GoodsEntity g SET g.quant=g.quant- :quant WHERE g.id=:id")
     Integer reduceQuant(@Param("id") Long id, @Param("quant") double quant);
-
-    long count();
 }

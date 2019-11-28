@@ -12,8 +12,8 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class UserType {
+
     private Long id;
 
     private String type;

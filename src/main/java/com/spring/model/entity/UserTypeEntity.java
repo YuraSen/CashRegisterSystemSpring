@@ -15,6 +15,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "user_type")
 public class UserTypeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)

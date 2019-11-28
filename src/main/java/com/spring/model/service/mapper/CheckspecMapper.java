@@ -9,6 +9,8 @@ import com.spring.model.entity.GoodsEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Component
 @AllArgsConstructor
 public class CheckspecMapper {
@@ -16,7 +18,7 @@ public class CheckspecMapper {
     private GoodMapper goodMapper;
 
     public Checkspec checkspecEntityToCheckspec(CheckspecEntity checkspecEntity) {
-        if (checkspecEntity == null) {
+        if (Objects.isNull(checkspecEntity)) {
             return null;
         }
 
@@ -37,7 +39,7 @@ public class CheckspecMapper {
     }
 
     public CheckspecEntity checkspecToChecksoecEntity(Checkspec checkspec) {
-        if (checkspec == null) {
+        if (Objects.isNull(checkspec)) {
             return null;
         }
 

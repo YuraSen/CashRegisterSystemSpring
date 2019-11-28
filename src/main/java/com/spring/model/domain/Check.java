@@ -14,8 +14,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
 public class Check {
+
     private Long id;
 
     private Date crtime;

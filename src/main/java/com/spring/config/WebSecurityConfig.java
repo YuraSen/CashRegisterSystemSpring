@@ -24,7 +24,7 @@
 //    protected void configure(HttpSecurity http) throws Exception {
 //        http
 //                .authorizeRequests()
-//                .antMatchers("/", "/index", "/register", "/register/", "/js/", "/css/", "/sources/", "/login/").permitAll()
+//                .antMatchers("/", "/index", "/register", "/register/", "/js/", "/css/", "/sources/", "/email/").permitAll()
 //                .antMatchers("/goods/**").hasAnyAuthority("goods_spec")
 //                .antMatchers("/cancel/**", "/check/**").hasAnyAuthority("senior_cashier")
 //                .antMatchers("/check/**").hasAnyAuthority("cashier")
