@@ -45,7 +45,7 @@ public class CheckServiceImpl implements CheckService {
         }
 
         Goods goods = goodsService.findByCode(order.getGoods().getCode());
-        
+
         order.setPrice(goods.getPrice());
         order.setTotal(BigDecimal.valueOf(order.getQuant()).multiply(BigDecimal.valueOf(order.getPrice())).doubleValue());
         order.setNdstotal(BigDecimal.valueOf(order.getTotal()).multiply(BigDecimal.valueOf(order.getNds())).divide(new BigDecimal(100)).doubleValue());
