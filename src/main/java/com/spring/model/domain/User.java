@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern;
 import java.util.Collection;
 
 @Data
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 

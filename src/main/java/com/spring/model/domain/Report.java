@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 @NoArgsConstructor
 
 public class Report {

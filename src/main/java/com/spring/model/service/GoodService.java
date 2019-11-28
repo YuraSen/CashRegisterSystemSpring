@@ -12,5 +12,7 @@ public interface GoodService {
 
     Integer reduceQuant(Long id, double quant);
 
+    Long addGoods(Integer code, String name, Double quant, Double price, String measure, String comments);
+
     void changeGoods(Integer code, Double newQuant, Double newPrice);
 }

@@ -21,9 +21,14 @@ public class MyErrorController implements ErrorController {
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+        Exception exception = (Exception) request.getAttribute("javax.servlet.error.exception");
 
+        model.addAttribute("error_message", exception.getMessage());
         model.addAttribute("error_status", status);
+
         log.error("ERROR_STATUS_CODE:" + status);
+        log.error("ERROR_Message:" + exception.getMessage());
+
         return "error";
     }
 }

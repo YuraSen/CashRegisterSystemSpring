@@ -8,7 +8,6 @@ import com.spring.model.service.ReportService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,7 +31,7 @@ public class CancelController {
     }
 
     @PostMapping(value = "/cancel", params = "btnSearchCheck")
-    public String searchCheck(Model model, HttpSession session,
+    public String searchCheck(HttpSession session,
                               @RequestParam("checkid") Long checkid) {
         Check check = checkService.findById(checkid);
         List<Checkspec> checkspecs = checkService.findCheckspecByCheck(checkid);
@@ -51,8 +49,8 @@ public class CancelController {
     @GetMapping("/cancel/edit/{count}")
     public ModelAndView cancelSpec(HttpSession session, @PathVariable Integer count) {
         @SuppressWarnings("unchecked")
-        Collection<Checkspec> checkspecs = (Collection<Checkspec>) session.getAttribute("checkspecs");
-        checkService.cancelCheckSpec((List<Checkspec>) checkspecs, count);
+        List<Checkspec> checkspecs = (List<Checkspec>) session.getAttribute("checkspecs");
+        checkService.cancelCheckSpec(checkspecs, count);
         return new ModelAndView("redirect:/cancel");
     }
 

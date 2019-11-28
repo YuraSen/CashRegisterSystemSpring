@@ -10,7 +10,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 @Data
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 

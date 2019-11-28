@@ -11,7 +11,7 @@ import javax.validation.constraints.Min;
 import java.util.Date;
 
 @Data
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 

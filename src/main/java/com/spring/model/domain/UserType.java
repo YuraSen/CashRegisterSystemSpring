@@ -10,7 +10,7 @@ import java.util.Collection;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 @Builder
 
 public class UserType {
