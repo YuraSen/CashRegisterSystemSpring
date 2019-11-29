@@ -85,9 +85,9 @@ nav a {
 }
 
 .center {
-    width: 400px; /* Ширина элемента в пикселах */
-    padding: 10px; /* Поля вокруг текста */
-    margin: auto; /* Выравниваем по центру */
+    width: 400px;
+    padding: 10px;
+    margin: auto;
 }
 .alignRight{
     float:right;
