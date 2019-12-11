@@ -10,16 +10,15 @@
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 	 	<div class="collapse navbar-collapse" id="navbarNavDropdown"> 	
 			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link" th:if="${session.user} != null" th:text="${session.user.name}"></a></li>
+				<li class="nav-item"><a class="nav-link" th:if="${session.role} != null" th:text="${session.role}"></a></li>
 				<li class="nav-item"><a class="nav-link" href="goods" 
-			  	 	th:if="${session.user != null and session.user.userType.type == 'goods_spec'}" th:text="#{menu.goods}"></a>		  
+			  	 	th:if="${session.role == 'goods_spec'}" th:text="#{menu.goods}"></a>
 			  	<li class="nav-item"><a class="nav-link" href="check" 
-			  		th:if="${session.user != null 
-			  		and (session.user.userType.type == 'cashier' or session.user.userType.type == 'senior_cashier')}" th:text="#{menu.check}"></a>		  
+			  		th:if="${session.role == 'cashier'}" th:text="#{menu.check}"></a>
 			  	<li class="nav-item"><a class="nav-link" href="cancel" 
-			  		th:if="${session.user != null and session.user.userType.type == 'senior_cashier'}" th:text="#{cancel.check}"></a>
-			    <li class="nav-item"><a class="nav-link" href="/logout" th:if="${session.user} != null" th:text="#{menu.logout}"></a>
-			    <li class="nav-item"><a class="nav-link" href="/" th:if="${session.user} == null" th:text="#{menu.enter}"></a>
+			  		th:if="${session.role == 'senior_cashier'}" th:text="#{cancel.check}"></a>
+			    <li class="nav-item"><a class="nav-link" href="/logout" th:if="${session.role} != null" th:text="#{menu.logout}"></a>
+			    <li class="nav-item"><a class="nav-link" href="/" th:if="${session.role} == null" th:text="#{menu.enter}"></a>
 		    	<li class="nav-item dropdown">
 	            	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" 
 	            		aria-haspopup="true" aria-expanded="false" th:text="#{lang}">          

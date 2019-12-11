@@ -39,7 +39,7 @@ public class GoodsController {
 
         addPagination(model, page, size);
 
-        return "/goods";
+        return "redirect:/goods";
     }
 
     @GetMapping("/goods/edit/{code}")
@@ -52,7 +52,7 @@ public class GoodsController {
     }
 
     @PostMapping("/goods/edit/{code}")
-    public ModelAndView updateGoods(Model model, @PathVariable Integer code,
+    public ModelAndView updateGoods(Model model, @PathVariable("code") Integer code,
                                     @RequestParam("changequant") Double changequant,
                                     @RequestParam("changeprice") Double changeprice,
                                     @RequestParam("page") Optional<Integer> page,

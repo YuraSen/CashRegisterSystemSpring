@@ -1,8 +1,8 @@
 package com.shop.controller;
 
 import com.shop.model.domain.Order;
-import com.shop.model.domain.User;
 import com.shop.model.service.CheckService;
+import com.shop.model.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,7 @@ import java.util.List;
 public class CheckController {
 
     private final CheckService checkService;
+    private final UserService userService;
 
     @GetMapping("/check")
     public String viewCheck(Model model) {
@@ -53,14 +54,14 @@ public class CheckController {
         List<Order> orders = (List<Order>) session.getAttribute("addOrders");
 
         if (!orders.isEmpty()) {
-            checkService.addCheck((User) session.getAttribute("user"), orders);
+            checkService.addCheck(userService.getCurrentUser(), orders);
             request.setAttribute("addedCheck", true);
         } else {
             request.setAttribute("addedCheck", false);
         }
         orders.clear();
 
-        return "/check";
+        return "redirect:/check";
     }
 
     @PostMapping(value = "/check", params = "btnCancelCheck")

@@ -3,7 +3,6 @@ package com.shop.model.service.impl;
 import com.shop.model.domain.Fiscal;
 import com.shop.model.domain.Report;
 import com.shop.model.domain.Report.Detail;
-import com.shop.model.repositories.CheckRepository;
 import com.shop.model.repositories.FiscalRepository;
 import com.shop.model.service.ReportService;
 import com.shop.model.service.mapper.FiscalMapper;
@@ -23,7 +22,6 @@ import java.util.List;
 public class ReportServiceImpl implements ReportService {
 
     private final FiscalRepository fiscalRepository;
-    private final CheckRepository checkRepository;
     private final FiscalMapper fiscalMapper;
 
     @Override
@@ -52,7 +50,6 @@ public class ReportServiceImpl implements ReportService {
         for (Object[] field : zReport) {
             Fiscal fiscal = new Fiscal();
             fiscal.setTotal((Double) field[6]);
-            //checkRepository.register(new Date());
             fiscal = fiscalMapper.fiscalEntityToFiscal(fiscalRepository.save(fiscalMapper.fiscalToFiscalEntity(fiscal)));
             Long repNumber = fiscal.getId();
             rep = new Report().new Builder()

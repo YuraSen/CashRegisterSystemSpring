@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -35,7 +35,7 @@ import static org.mockito.Mockito.*;
 @ContextConfiguration(classes = {GoodsServiceImpl.class})
 public class GoodsServiceImplTest {
 
-    private static final Goods GOOD = getBus();
+    private static final Goods GOOD = getGood();
 
     private static final GoodsEntity ENTITY = new GoodsEntity();
 
@@ -61,7 +61,7 @@ public class GoodsServiceImplTest {
     }
 
     @Test
-    public void shouldReturnBusByCode() {
+    public void shouldReturnGoodByCode() {
         when(repository.findByCode(anyInt())).thenReturn(Optional.of(ENTITY));
         when(mapper.goodEntityToGood(any(GoodsEntity.class))).thenReturn(GOOD);
         Goods actual = service.findByCode(1);
@@ -69,7 +69,7 @@ public class GoodsServiceImplTest {
         verify(repository).findByCode(anyInt());
         verify(mapper).goodEntityToGood(any(GoodsEntity.class));
 
-        assertThat(actual, equalTo(GOOD));
+        assertThat(actual, is(GOOD));
     }
 
     @Test
@@ -81,14 +81,14 @@ public class GoodsServiceImplTest {
     }
 
     @Test
-    public void shouldThrowInvalidDataRuntimeExceptionWithEmptyBusInAddBus() {
+    public void shouldThrowInvalidDataRuntimeExceptionWithEmptyBusInAddGood() {
         exception.expect(GoodsIsExistRuntimeException.class);
         exception.expectMessage("Product is null");
         service.addGoods(null);
     }
 
     @Test
-    public void shouldSaveBus() {
+    public void shouldSaveGood() {
         when(repository.findByCode(anyInt())).thenReturn(Optional.empty());
         when(mapper.goodEntityToGood(any(GoodsEntity.class))).thenReturn(GOOD);
 
@@ -99,7 +99,7 @@ public class GoodsServiceImplTest {
     }
 
     @Test
-    public void shouldThrowInvalidDataRuntimeExceptionExceptionWithEmptyBusInChangeBus() {
+    public void shouldThrowInvalidDataRuntimeExceptionExceptionWithEmptyBusInChangeGood() {
         when(repository.findByCode(anyInt())).thenReturn(Optional.of(ENTITY));
         when(mapper.goodEntityToGood(any(GoodsEntity.class))).thenReturn(GOOD);
         exception.expect(InvalidDataRuntimeException.class);
@@ -108,7 +108,7 @@ public class GoodsServiceImplTest {
     }
 
     @Test
-    public void shouldChangeBus() {
+    public void shouldChangeGood() {
         when(repository.findByCode(anyInt())).thenReturn(Optional.of(ENTITY));
         when(mapper.goodEntityToGood(any(GoodsEntity.class))).thenReturn(GOOD);
 
@@ -116,12 +116,12 @@ public class GoodsServiceImplTest {
         actual.setPrice(10);
         actual.setQuant(100);
         service.changeGoods(1, 100.0, 10.0);
-        assertThat(actual, equalTo(GOOD));
+        assertThat(actual, is(GOOD));
         verify(repository).save(any());
     }
 
     @Test
-    public void shouldReturnPagenationBus() {
+    public void shouldReturnPagenationGood() {
         PageRequest sortedByCode = PageRequest.of(0, 1, Sort.by("code"));
         when(repository.findAll(any(PageRequest.class))).thenReturn(new PageImpl<>(GOOD_ENTITIES, sortedByCode, 1));
         when(mapper.goodEntityToGood(any(GoodsEntity.class))).thenReturn(GOOD);
@@ -129,10 +129,10 @@ public class GoodsServiceImplTest {
         Page<Goods> pageBus = service.getPageGoods(1, 1);
 
         Page<Goods> actualPageBus = new PageImpl<>(GOODS, sortedByCode, 1);
-        assertThat(pageBus, equalTo(actualPageBus));
+        assertThat(pageBus, is(actualPageBus));
     }
 
-    private static Goods getBus() {
+    private static Goods getGood() {
         return Goods.builder()
                 .id(1L)
                 .code(1)

@@ -37,6 +37,13 @@ public class GoodsServiceImpl implements GoodService {
     }
 
     @Override
+    public Goods findByName(String name) {
+        return goodMapper.goodEntityToGood(goodsRepository.findByName(name)
+
+                .orElseThrow(() -> new EntityNotFoundRuntimeException("Don't find good by this name")));
+    }
+
+    @Override
     public Page<Goods> getPageGoods(int currentPage, int pageSize) {
         PageRequest sortedByCode = PageRequest.of(currentPage - 1, pageSize, Sort.by("code"));
         Page<GoodsEntity> allGoodsEntity = goodsRepository.findAll(sortedByCode);
@@ -47,18 +54,13 @@ public class GoodsServiceImpl implements GoodService {
         return new PageImpl<>(result, sortedByCode, countAllGoods());
     }
 
-    @Override
-    public Integer reduceQuant(Long id, double quant) {
-        return goodsRepository.reduceQuant(id, quant);
-    }
-
     private long countAllGoods() {
         return goodsRepository.count();
     }
 
     @Override
     public void addGoods(Goods good) {
-        if(Objects.isNull(good)){
+        if (Objects.isNull(good)) {
             log.warn("Product is null");
             throw new GoodsIsExistRuntimeException("Product is null");
         }

@@ -1,6 +1,5 @@
 package com.shop.controller;
 
-import com.shop.model.service.impl.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +16,13 @@ import javax.servlet.http.HttpSession;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
-    private final UserServiceImpl userService;
-
-    @GetMapping("/")
+    @RequestMapping("/")
     public String getSignIn() {
+        return "/index";
+    }
+
+    @RequestMapping(value = "/login")
+    public String login() {
         return "/index";
     }
 
@@ -32,10 +34,5 @@ public class UserController {
         }
 
         return new ModelAndView("redirect:/");
-    }
-
-    @RequestMapping("/")
-    public String postSignIn() {
-        return "/index";
     }
 }

@@ -34,11 +34,10 @@ public class UserEntity {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "creator")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "creator")
     private List<CheckEntity> checks;
 
     @JoinColumn(name = "id_user_type", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private UserTypeEntity userType;
 }
-

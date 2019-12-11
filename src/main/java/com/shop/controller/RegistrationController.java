@@ -5,7 +5,6 @@ import com.shop.model.service.impl.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,17 +27,14 @@ public class RegistrationController {
         return "/registration";
     }
 
-    @PostMapping("/registration")
+    @PostMapping("/signUp")
     public ModelAndView registration(HttpSession session, Model model, @ModelAttribute User user) {
-        UserDetails userResult = userService.loadUserByUsername(user.getEmail());
-        if (userResult != null) {
-            session.setAttribute("user", userResult);
-            userService.registration(user);
-
+        User newUser = userService.registration(user);
+        if (newUser != null) {
+            session.setAttribute("user", newUser);
             return new ModelAndView("redirect:/check");
         }
         model.addAttribute("existsEmail", user.getEmail());
-
         return new ModelAndView("/registration");
     }
 }

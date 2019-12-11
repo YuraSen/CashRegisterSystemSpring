@@ -18,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class User implements UserDetails {
+//public class User {
 
     private Long id;
 

@@ -1,11 +1,11 @@
 package com.shop.model.service.mapper;
 
 import com.shop.model.domain.Check;
-import com.shop.model.domain.Order;
 import com.shop.model.domain.Goods;
+import com.shop.model.domain.Order;
 import com.shop.model.entity.CheckEntity;
-import com.shop.model.entity.OrderEntity;
 import com.shop.model.entity.GoodsEntity;
+import com.shop.model.entity.OrderEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

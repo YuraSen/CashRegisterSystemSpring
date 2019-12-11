@@ -39,13 +39,23 @@ public class CheckServiceImpl implements CheckService {
 
     @Override
     public Order addOrder(Order order) {
-        if (Objects.isNull(order)) {
+        if (Objects.isNull(order) || Objects.isNull(order.getNds())
+                || order.getQuant() < 0 || order.getQuant() > 100000
+                || order.getNds() < 0 || order.getNds() > 100) {
             log.warn("Data for add order is uncorrected");
             throw new InvalidDataRuntimeException("Data for add order is uncorrected");
         }
 
-        Goods goods = goodsService.findByCode(order.getGoods().getCode());
+        Goods goods = order.getGoods().getName().equals("")
+                ? goodsService.findByCode(order.getGoods().getCode())
+                : goodsService.findByName(order.getGoods().getName());
 
+        if (Objects.isNull(goods)) {
+            log.warn("Good is not exist");
+            throw new EntityNotFoundRuntimeException("Good is not exist");
+        }
+
+        order.setGoods(goods);
         order.setPrice(goods.getPrice());
         order.setTotal(BigDecimal.valueOf(order.getQuant()).multiply(BigDecimal.valueOf(order.getPrice())).doubleValue());
         order.setNdstotal(BigDecimal.valueOf(order.getTotal()).multiply(BigDecimal.valueOf(order.getNds())).divide(new BigDecimal(100)).doubleValue());
@@ -72,10 +82,6 @@ public class CheckServiceImpl implements CheckService {
 
         for (Order order : orders) {
             order.setCheck(check);
-            Goods goods = order.getGoods();
-//            if (goods != null) {
-//                goodsService.reduceQuant(goods.getId(), order.getQuant());
-//            }
             OrderEntity orderEntity = orderMapper.orderToOrderEntity(order);
             orderRepository.save(orderEntity);
         }
@@ -83,7 +89,7 @@ public class CheckServiceImpl implements CheckService {
 
     @Override
     public Check findById(Long checkId) {
-        if (checkId < 0) {
+        if (Objects.isNull(checkId) || checkId < 0) {
             log.warn("Id not exist");
             throw new InvalidIdRuntimeException("Id not exist");
         }
@@ -94,7 +100,7 @@ public class CheckServiceImpl implements CheckService {
 
     @Override
     public List<Order> findOrderByCheck(Long checkId) {
-        if (checkId < 0) {
+        if (Objects.isNull(checkId) || checkId < 0 ) {
             log.warn("Id not exist");
             throw new InvalidIdRuntimeException("Id not exist");
         }

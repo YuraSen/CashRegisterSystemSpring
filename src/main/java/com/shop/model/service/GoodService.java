@@ -7,9 +7,9 @@ public interface GoodService {
 
     Goods findByCode(int code);
 
-    Page<Goods> getPageGoods(int currentPage, int pageSize);
+    Goods findByName(String name);
 
-    Integer reduceQuant(Long id, double quant);
+    Page<Goods> getPageGoods(int currentPage, int pageSize);
 
     void addGoods(Goods good);
 

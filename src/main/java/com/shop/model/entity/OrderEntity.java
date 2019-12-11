@@ -52,4 +52,3 @@ public class OrderEntity {
     @ManyToOne(optional = false)
     private GoodsEntity goods;
 }
-

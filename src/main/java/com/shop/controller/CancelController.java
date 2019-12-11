@@ -36,7 +36,7 @@ public class CancelController {
         List<Order> orders = checkService.findOrderByCheck(checkid);
 
         session.setAttribute("check", check);
-        session.setAttribute("addOrders", orders);
+        session.setAttribute("orders", orders);
         session.setAttribute("checkfind", checkid);
 
         return "/cancel";

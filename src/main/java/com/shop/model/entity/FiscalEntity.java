@@ -24,8 +24,8 @@ import javax.persistence.*;
         "	FROM orders s" +
         "	INNER JOIN chec c ON c.id = s.id_check" +
         "	LEFT JOIN (SELECT COUNT(c1.canceled) AS countcanceled FROM chec c1 " +
-        "			 		WHERE c1.canceled = 1 /*AND cast(c1.crtime as date) = current_date()*/) cancel ON true" +
-        "	WHERE c.canceled = 0 AND s.canceled = 0 /*AND cast(c.crtime as date) = current_date()*/" +    //закоментировано для debug-а
+        "			 		WHERE c1.canceled = 1 ) cancel ON true" +
+        "	WHERE c.canceled = 0 AND s.canceled = 0" +
         "	GROUP BY s.nds, cancel.countcanceled")
 @NamedNativeQuery(name = "FiscalEntity.createZReport", query = "SELECT current_timestamp() AS printtime," +
         "	(SELECT COUNT(c1.canceled) FROM chec c1 " +
@@ -55,4 +55,3 @@ public class FiscalEntity {
     @Column(name = "total")
     private Double total;
 }
-

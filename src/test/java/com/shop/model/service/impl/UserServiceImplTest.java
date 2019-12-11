@@ -24,7 +24,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -85,13 +85,12 @@ public class UserServiceImplTest {
         service.registration(actual);
         USER.setPassword(actual.getPassword());
 
-        assertThat(actual, equalTo(USER));
+        assertThat(actual, is(USER));
     }
 
     @Test
     public void loadUserByUsernameShouldThrowUnCorrectInputDataRuntimeExceptionWithEmptyLogin() {
         exception.expect(EntityNotFoundRuntimeException.class);
-        exception.expectMessage("Don't find user by this email");
 
         service.loadUserByUsername(null);
     }
@@ -103,7 +102,7 @@ public class UserServiceImplTest {
 
         UserDetails actual = service.loadUserByUsername("email@gmail.com");
 
-        assertThat(actual, equalTo(USER));
+        assertThat(actual, is(USER));
     }
 
     private static UserEntity getUserEntity() {
